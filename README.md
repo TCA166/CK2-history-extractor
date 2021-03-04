@@ -18,3 +18,13 @@ The normal one is slower and is generally more reliable but requires installatio
 
 This script alongside the main game chronicle and [CK2GED](https://github.com/faiuwle/CK2GED) can easily immortalize characters from your campaigns.
 It works with mods, but save games from older versions might cause trouble.
+
+<ul> Instructions:
+  <li>Install python</li>
+  <li>Download the repo</li>
+  <li>Put the repo in the directory of your choosing</li>
+  <li>Decompress a ck2 savefile of your choosing and put the decompressed version next to the script</li>
+  <li>If you want to run the normal version install ClauseWizard using pip</li>
+  <li>Run the script version of your choosing</li>
+  <li>Follow the prompts</li>
+</ul>
