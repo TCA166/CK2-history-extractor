@@ -54,7 +54,6 @@ def create_title_history_html(id,data,folder_id):
     for item in cw_data['history']:
         if isinstance(cw_data['history'][item]['holder'], dict):
             owner = cw_data['history'][item]['holder']['who']
-            print(owner)
             if owner not in known_names:
                 owner = get_char_name(owner)
             else:
@@ -82,7 +81,7 @@ def create_title_history_html(id,data,folder_id):
     f.close()
 
 def get_char_name(charid):
-    #try:
+    try:
         chardata = re.findall(r'%s=\n\t\t{.+?\n\t\t}' % charid, data, re.S)
         #make the data readable
         correct_data = chardata[0]
@@ -94,8 +93,9 @@ def get_char_name(charid):
         else:
             name = name + ' ' + known_dynasties[dynasty_id]
         known_names[charid] = name
+        
         return name
-    #except:
+    except:
         return 'Unknown'
 
 print('Name of the non compressed ck2 save file (without .ck2):')
