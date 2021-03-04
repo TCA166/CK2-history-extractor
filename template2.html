@@ -1,0 +1,46 @@
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>{{data[0]}}</title>
+</head>
+<body>
+    <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-body border-bottom shadow-sm">
+        <p class="h1 my-0 me-md-auto fw-normal">CK2 history extractor</p>
+    </header>
+	<main style="margin:10px">
+		<h3>
+			{{data[0]}} {% if data[9] != 'No nickname'%}{{data[9]}}{%endif%}
+		</h3>
+		Born: {{data[1]}}<br />
+		{% if data[2] != 'Not dead'%}
+		Died: {{data[2]}}<br />
+		{% if data[3] != 'NA' %}
+		Reason of death: {{data[3]}}<br />
+		{% endif %}
+		{% endif %}
+		Religion: {{data[4]}}<br />
+		Culture: {{data[5]}}<br />
+		Goverment: {{data[6]}}<br />
+		Kills: {{data[10]}} <br />
+		Titles:
+		{% for item in data[7]%}
+		{%if item in titles%}
+		{% if 'Kingdom' in item %}<a href="titles\{{item}}.html" style="color:#cc9900">{{item}},</a>{%elif 'Empire' in item%}<a href="titles\{{item}}.html" style="color:purple">{{item}},</a>{% elif 'Duchy' in item %}<a href="titles\{{item}}.html" style="color:blue">{{item}},</a>{% elif 'County' in item %}{{item}},{%else%}<a href="titles\{{item}}.html" style="color:#737373">{{item}},</a>{%endif%}
+		{%else%}
+		{% if 'Kingdom' in item %}<titles style="color:#cc9900">{{item}},</titles>{%elif 'Empire' in item%}<titles style="color:purple">{{item}},</titles>{% elif 'Duchy' in item %}<titles style="color:blue">{{item}},</titles>{% elif 'County' in item %}{{item}},{%else%}<titles style="color:#737373">{{item}},</titles>{%endif%}
+		{%endif%}
+		{%endfor%} <br>
+		<br>
+		{% if data[2] == 'Not dead'%}
+		Claims:
+		{% for item in data[8]%}
+		{%if item in titles%}
+		{% if 'Kingdom' in item %}<a href="titles\{{item}}.html" style="color:#cc9900">{{item}},</a>{%elif 'Empire' in item%}<a href="titles\{{item}}.html" style="color:purple">{{item}},</a>{% elif 'Duchy' in item %}<a href="titles\{{item}}.html" style="color:blue">{{item}},</a>{% elif 'County' in item %}{{item}},{%else%}<a href="titles\{{item}}.html" style="color:#737373">{{item}},</a>{%endif%}
+		{%else%}
+		{% if 'Kingdom' in item %}<titles style="color:#cc9900">{{item}},</titles>{%elif 'Empire' in item%}<titles style="color:purple">{{item}},</titles>{% elif 'Duchy' in item %}<titles style="color:blue">{{item}},</titles>{% elif 'County' in item %}{{item}},{%else%}<titles style="color:#737373">{{item}},</titles>{%endif%}
+		{%endif%}
+		{%endfor%}
+		{%endif%}
+	</main>
+</body>
+</html>
