@@ -13,6 +13,7 @@ The normal one is slower and is generally more reliable but requires installatio
 <ul> Requirements:
   <li>Python 3</li>
   <li>ClauseWizard (if you want to run the normal script)</li>
+  <li>Decompressed ck2 save file</li>
 </ul>
 
 This script alongside the main game chronicle and [CK2GED](https://github.com/faiuwle/CK2GED) can easily immortalize characters from your campaigns.
