@@ -32,5 +32,5 @@ Instructions:
   <li>Follow the prompts</li>
 </ul>
 
-Known problems:
+Known problems:<br>
 Generally speaking there are going to be some small issues with the data that my program extracts. For example names might be different,missing entirely or it might not be able to extract everyting about a certain title. Those are minor bugs that despite my best efforts I couldn't eliminate. CK2 savefiles are very messy by their nature and as such some data about a certain title might be stored in a different way for seemingly no reason. When that occurs my script might simply return NA or unknown in a certain category. Perfect example of this is religion and culture of characters. My oldest dynasty member used to be a unreformed hellenic pagan. After reformation, data about his religion seems to be gone entirely out of the savefile. Why? idk, how ck2 still manages to display ingame his religion? idk.
