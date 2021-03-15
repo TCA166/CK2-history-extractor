@@ -21,6 +21,28 @@ def get_real_title_name(input):
         input = ' '.join(input.rsplit('_', input.count('_') - 1))
     return input.replace('b_','Barony of ').replace('c_','County of ').replace('e_','Empire of ').replace('k_','Kingdom of ').replace('d_','Duchy of ')
 
+def get_all_once_owned(charid,data,titles):
+    data_split = re.findall(r'\ttitle=\n\t{.+?\n\t}',data, re.S)[0].split('\n')
+    i = 0
+    chars_once_owned = []
+    chars_once_owned_raw = []
+    title_name = ''
+    for line in data_split:
+        if line == '\t\t\tprevious=':
+            previous_owners = data_split[i + 2].replace('\t','')
+            previous_owners = previous_owners.split(' ')
+            if charid in previous_owners and real_title not in titles:
+                chars_once_owned.append(real_title)
+                chars_once_owned_raw.append(title_name)
+        elif line == '\t\t{':
+            title_name = data_split[i - 1].replace('=','').replace('\t','')
+            if 'dyn' in title_name:
+                real_title = get_dynamic_title(title_name,data)
+            else:
+                real_title = get_real_title_name(title_name)
+        i = i + 1
+    return [chars_once_owned,chars_once_owned_raw]
+
 def get_dynamic_title(id,data):
     title = id
     #find the name of the dynamic title
@@ -47,9 +69,30 @@ def create_title_history_html(id,data,folder_id):
     if 'dyn' in title:
         title = get_dynamic_title(title,data)
     title = get_real_title_name(title)
+    try:
+        liege = re.findall(r'liege=.+?\n', title_data, re.S)[0]
+        liege = liege.replace('liege=','')
+        if '{' in liege:
+            liege = re.findall(r'title=".+?"', title_data, re.S)[0]
+            liege = liege.replace('"','').replace('title=','')
+        if 'dyn' in liege:
+            liege = get_dynamic_title(liege,data)
+        liege = get_real_title_name(liege)
+    except:
+        liege = 'None'
+    try:
+        de_liege = re.findall(r'de_jure_liege=.+?\n', title_data, re.S)[0]
+        de_liege = de_liege.replace('de_jure_liege=','')
+        if '{' in de_liege:
+            de_liege = re.findall(r'title=".+?"', title_data, re.S)[0]
+            de_liege = de_liege.replace('"','').replace('title=','')
+        if 'dyn' in de_liege:
+            de_liege = get_dynamic_title(de_liege,data)
+        de_liege = get_real_title_name(de_liege)
+    except:
+        de_liege = 'None'
     cw_tokens = ClauseWizard.cwparse(history_data)
     cw_data = ClauseWizard.cwformat(cw_tokens)
-    data_split = history_data.split('\n')
     chunks = []
     for item in cw_data['history']:
         if isinstance(cw_data['history'][item]['holder'], dict):
@@ -75,7 +118,7 @@ def create_title_history_html(id,data,folder_id):
     titles_html.append(title)
     #render and save the file
     template = env.get_template('template3.html')
-    output = template.render(data=chunks)    
+    output = template.render(data=chunks,liege=liege,dejure=de_liege)    
     f = open("Player " + str(i) + ' history/titles/' + title.replace('\t','') + ".html", "w")
     f.write(output)
     f.close()
@@ -140,10 +183,12 @@ with open (filename+".ck2", "r") as myfile:
         # create the directory
         try:
             os.mkdir("Player " + str(i) + " history")
+            print('Created player directory...')
         except:
             print('Directory is already here...')
         try:
             os.makedirs("Player " + str(i) + " history/titles")
+            print('Created title directory...')
         except:
             print('Title directory is already here...')
         i2 = 0
@@ -255,16 +300,22 @@ with open (filename+".ck2", "r") as myfile:
                     #if for some reason a claim and a title overlap delete the title
                     titles.pop(i3)
                 i3 = i3 + 1
+            i3 = 0
+            once_owned = get_all_once_owned(charid,data,titles)
+            for title in once_owned[1]:
+                if title not in titles_html and 'd_' in title or 'e_' in title or 'k_' in title:
+                    create_title_history_html(title,data,i)
             #get the chars goverment type
             gov =  chardata['gov'].replace('_',' ')
             #nice one big array
-            chardata = [name,bd,dd,cd,rel,cul,gov,titles,claims,nick,num_of_kills]
+            chardata = [name,bd,dd,cd,rel,cul,gov,titles,claims,nick,num_of_kills,once_owned[0]]
             #we have the data and now is the time to create html files for the encyclopedia
             item[i2]['identity'] = name
             item[i2]['id_local'] = i2
             template = env.get_template('template2.html')
             output2 = template.render(data=chardata,titles=titles_html)
             history = "history\ "
+            print('Created history file for: ' + chardata[0] + '...')
             f = open("Player " + str(i) + ' ' + history.replace(' ','') + chardata[0] + str(i2) + ".html", "w")
             f.write(output2)
             f.close()

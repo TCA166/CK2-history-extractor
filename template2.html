@@ -22,15 +22,28 @@
 		Culture: {{data[5]}}<br />
 		Goverment: {{data[6]}}<br />
 		Kills: {{data[10]}} <br />
-		Titles:
+		Titles owned:
 		{% for item in data[7]%}
 		{%if item in titles%}
 		{% if 'Kingdom' in item %}<a href="titles\{{item}}.html" style="color:#cc9900">{{item}},</a>{%elif 'Empire' in item%}<a href="titles\{{item}}.html" style="color:purple">{{item}},</a>{% elif 'Duchy' in item %}<a href="titles\{{item}}.html" style="color:blue">{{item}},</a>{% elif 'County' in item %}{{item}},{%else%}<a href="titles\{{item}}.html" style="color:#737373">{{item}},</a>{%endif%}
 		{%else%}
 		{% if 'Kingdom' in item %}<titles style="color:#cc9900">{{item}},</titles>{%elif 'Empire' in item%}<titles style="color:purple">{{item}},</titles>{% elif 'Duchy' in item %}<titles style="color:blue">{{item}},</titles>{% elif 'County' in item %}{{item}},{%else%}<titles style="color:#737373">{{item}},</titles>{%endif%}
 		{%endif%}
-		{%endfor%} <br>
+		{%endfor%}
 		<br>
+		<br />
+		{%if data[11] != []%}
+		Once owned titles:
+		{% for item in data[11]%}
+		{%if item in titles%}
+		{% if 'Kingdom' in item %}<a href="titles\{{item}}.html" style="color:#cc9900">{{item}},</a>{%elif 'Empire' in item%}<a href="titles\{{item}}.html" style="color:purple">{{item}},</a>{% elif 'Duchy' in item %}<a href="titles\{{item}}.html" style="color:blue">{{item}},</a>{% elif 'County' in item %}{{item}},{%else%}<a href="titles\{{item}}.html" style="color:#737373">{{item}},</a>{%endif%}
+		{%else%}
+		{% if 'Kingdom' in item %}<titles style="color:#cc9900">{{item}},</titles>{%elif 'Empire' in item%}<titles style="color:purple">{{item}},</titles>{% elif 'Duchy' in item %}<titles style="color:blue">{{item}},</titles>{% elif 'County' in item %}{{item}},{%else%}<titles style="color:#737373">{{item}},</titles>{%endif%}
+		{%endif%}
+		{%endfor%}
+		<br>
+		<br />
+		{%endif%}
 		{% if data[2] == 'Not dead'%}
 		Claims:
 		{% for item in data[8]%}
@@ -41,6 +54,8 @@
 		{%endif%}
 		{%endfor%}
 		{%endif%}
+		<br>
+
 	</main>
 </body>
 </html>

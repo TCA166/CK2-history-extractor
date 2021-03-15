@@ -255,7 +255,7 @@ with open (filename+".ck2", "r") as myfile:
             #get the chars goverment type
             gov =  savestr_to_str(re.findall(r'gov=.+?\n', correct_data, re.S))
             #nice one big array
-            chardata = [name,bd.replace('b d=',''),dd.replace('d d=',''),cd.replace('c d=','').replace('death trait','natural causes'),rel.replace('rel=',''),cul.replace('cul=',''),gov.replace('gov=',''),titles,claims,nick.replace('=',''),num_of_kills]
+            chardata = [name,bd.replace('b d=',''),dd.replace('d d=',''),cd.replace('c d=','').replace('death trait','natural causes'),rel.replace('rel=',''),cul.replace('cul=',''),gov.replace('gov=',''),titles,claims,nick.replace('=',''),num_of_kills,[]]
             #we have the data and now is the time to create html files for the encyclopedia
             item[i2]['identity'] = name
             item[i2]['id_local'] = i2
